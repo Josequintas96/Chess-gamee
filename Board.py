@@ -9,6 +9,7 @@ class Board():
     board_set = {}
     piece_set ={}
     id_set =[]
+    color_set=[]
     
     def __init__(self):
         self.coordinates = []
@@ -17,9 +18,12 @@ class Board():
         while i0 < 8:
             i1 = 0
             pp = []
+            cc=[]
             while i1 < 8:
                 pp.append(-1)
+                cc.append("n")
                 i1+=1
+            self.color_set.append(cc)
             self.id_set.append(pp)
             i0+=1
         
@@ -36,6 +40,7 @@ class Board():
             
     def print_id(self):
         #print the coorrdinates number of thee board
+        print("PRINT ID")
         i0 = 0
         while i0 <8:
             i1 = 0
@@ -44,6 +49,20 @@ class Board():
                     print( "_\t", end="")
                 else:
                     print(self.id_set[i1][i0], "\t", end="")
+                i1+=1
+            print()
+            i0+=1
+            
+    def print_color(self):
+        #print the coorrdinates number of thee board
+        i0 = 0
+        while i0 <8:
+            i1 = 0
+            while i1 <8:
+                if self.color_set[i1][i0] == "n":
+                    print( "_\t", end="")
+                else:
+                    print(self.color_set[i1][i0], "\t", end="")
                 i1+=1
             print()
             i0+=1
@@ -79,11 +98,18 @@ class Board():
             self.piece_set[(pY,pX)] = 2
         return self.board_set[(pY,pX)]
     
-    def set_id(self, i1,i0,id):
-        self.id_set[i1][i0] = id
+    def set_id(self, i1,i0,idX):
+        print("Set ID: ", idX)
+        self.id_set[i1][i0] = idX
+        
+    def set_color(self, i1,i0, col):
+        self.color_set[i1][i0] = col
         
     def ret_id(self, i1,i0):
         return self.id_set[i1][i0]
+    
+    def ret_color(self, i1,i0):
+        return self.color_set[i1][i0]
             
     def ret_board_set(self, pX, pY):
         print("\tThis board => ", self.board_set[(pX, pY)] )

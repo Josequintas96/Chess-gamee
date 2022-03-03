@@ -208,9 +208,9 @@ class App:
             # print("\tPrint coordinate ", sp_loc )
             # print("\tColor 2: ", self.piece_Omega[i0].ret_color() )
             # print("\tNamee 2: ", self.piece_Omega[i0].ret_name() )
-            
-            if self.piece_Omega[i0].ret_name() == "Pawn":
-                pawn_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+            if self.piece_Omega[i0].ret_active():
+                if self.piece_Omega[i0].ret_name() == "Pawn":
+                    pawn_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
             i0+=1
         # print("<><><><><><><>")
             
@@ -249,7 +249,7 @@ class App:
                                 # self.mouse_possibles.clear()
                                 # self.mouse_possibles.append((self.mouse_control[0], self.mouse_control[1]))
                                 self.mouse_id = self.board_Omega[0].ret_id(self.mouse_control[1], self.mouse_control[0])
-                                print("Print board, activee mouse; ID=> ", self.mouse_id)
+                                print("Print board, active mouse; ID=> ", self.mouse_id)
                                 
                                 if self.mouse_id >=0:
                                     print("This is the id: ",self.mouse_id)
@@ -263,8 +263,17 @@ class App:
                                 print("Press possibility")
                                 print("\t Mouse Control ", self.mouse_control)
                                 print("\t Mouse Possibility ", self.mouse_possibles)
+                                #confirm if kill piece
+                                
                                 if self.mouse_control in self.mouse_possibles and self.mouse_id != -1:
                                     print("\tPossibility on This  id: ",self.mouse_id)
+                                    
+                                    #section to kill a piece
+                                    if self.board_Omega[0].ret_id(self.mouse_control[1], self.mouse_control[0]) != -1:
+                                        print("A kill shoould happen")
+                                        kill_id = self.board_Omega[0].ret_id(self.mouse_control[1], self.mouse_control[0])
+                                        self.piece_Omega[kill_id].set_active(False)
+                                    
                                     moveX = self.piece_Omega[self.mouse_id].movement(self.mouse_control[0], self.mouse_control[1])
                                     print("\t\t M=> ", moveX)
                                     if moveX == 99:
@@ -322,23 +331,26 @@ class App:
                 
                     if event.key == pygame.K_d:
                         print("Key d has been pressed")
+                        self.board_Omega[0].print_color()
+                        
+                            
+                        
+                    if event.key == pygame.K_e:
+                        print("Key e has been pressed")
+                        
+                        
+                    if event.key == pygame.K_f:
+                        print("Key f has been pressed")
+                        print("This is the mouse ID=> ", self.mouse_id)
+                        print("<><><><><><><><><><><><><><><><>")
+                        
+                    if event.key == pygame.K_g:
+                        print("Key g has been pressed")
                         ik = 0
                         while ik < len(self.piece_Omega):
                             self.piece_Omega[ik].print_piece()
                             print("<><><><><><><><><><>")
                             ik+=1
-                            
-                        
-                    if event.key == pygame.K_e:
-                        print("Key e has been pressed")
-                        print("This is the mouse ID=> ", self.mouse_id)
-                        print("<><><><><><><><><><><><><><><><>")
-                        
-                    if event.key == pygame.K_f:
-                        print("Key f has been pressed")
-                        
-                    if event.key == pygame.K_g:
-                        print("Key g has been pressed")
 
                     if event.key == pygame.K_h:
                         print("Key h has been pressed")

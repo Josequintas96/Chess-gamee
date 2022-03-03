@@ -4,7 +4,7 @@ from Board import *
 class Piece:
     name = ""
     color = ""
-    active = ""
+    active = None
     id = -1 #number to identify the piece on the list
     location = -1 #location of piece
     loc = (-1, -1) #location of piece on pX,pY
@@ -21,7 +21,12 @@ class Piece:
         self.direction = directionX
         self.loc = locX
         self.locate_piece(self.loc[1], self.loc[0], self.color)
+        print("Piece ID: ", self.id)
         self.board[0].set_id(self.loc[1], self.loc[0], self.id)
+        if self.color == "White":
+            self.board[0].set_color(self.loc[1], self.loc[0], "W")
+        elif self.color == "Black":
+            self.board[0].set_color(self.loc[1], self.loc[0], "B")
         
     def set_name(self, nameX):
         self.name = nameX
@@ -30,6 +35,8 @@ class Piece:
         self.color = colorX
     
     def set_active(self, activeX):
+        #Alive => True
+        #Death => False
         self.active = activeX
     
     def set_location(self, locationX):
@@ -94,7 +101,6 @@ class Piece:
                 poss0[0] = self.loc[0]+1
                 poss0[1] = self.loc[1]
                 poss.append(poss0)
-                self.pawn_fm = True
                 
             else:
                 poss0 = [-1,-1]
@@ -102,8 +108,42 @@ class Piece:
                 poss0[1] = self.loc[1]
                 poss.append(poss0)
                 
-            if 
-            
+                
+            if self.loc[0] >=0 and self.loc[0] <7:
+                if self.loc[1] >=0 and self.loc[1]<7:
+                    if self.color == "White":
+                        print("\tMoving a white piece")
+                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]+1) == "B":
+                            print("Black kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]+1
+                            poss0[1] = self.loc[1]+1
+                            poss.append(poss0)
+                    elif self.color == "Black":
+                        print("Moving a Black piece")
+                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]+1) == "W":
+                            print("White kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]+1
+                            poss0[1] = self.loc[1]+1
+                            poss.append(poss0)
+                if self.loc[1] >0 and self.loc[1]<=7:
+                    if self.color == "White":
+                        print("Moving a white piece")
+                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]-1) == "B":
+                            print("\tBlack kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]+1
+                            poss0[1] = self.loc[1]-1
+                            poss.append(poss0)
+                    elif self.color == "Black":
+                        print("Moving a Black piece")
+                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]-1) == "W":
+                            print("White kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]+1
+                            poss0[1] = self.loc[1]-1
+                            poss.append(poss0)
         if self.direction == "Up":
             if self.loc[0] == 0:
                 return None
@@ -118,13 +158,50 @@ class Piece:
                 poss0[0] = self.loc[0]-1
                 poss0[1] = self.loc[1]
                 poss.append(poss0)
-                self.pawn_fm = True
                 
             else:
                 poss0 = [-1,-1]
                 poss0[0] = self.loc[0]-1
                 poss0[1] = self.loc[1]
                 poss.append(poss0)
+                
+            if self.loc[0] <=7 and self.loc[0] >0:
+                if self.loc[1] >=0 and self.loc[1]<7:
+                    if self.color == "White":
+                        print("Moving a white piece")
+                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]-1) == "B":
+                            print("\tBlack kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]-1
+                            poss0[1] = self.loc[1]+1
+                            poss.append(poss0)
+                    elif self.color == "Black":
+                        print("Moving a Black piece")
+                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]-1) == "W":
+                            print("White kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]-1
+                            poss0[1] = self.loc[1]+1
+                            poss.append(poss0)
+                if self.loc[1] >0 and self.loc[1]<=7:
+                    if self.color == "White":
+                        print("Moving a white piece")
+                        if self.board[0].ret_color(self.loc[1]-1, self.loc[0]-1) == "B":
+                            print("\tBlack kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]-1
+                            poss0[1] = self.loc[1]-1
+                            poss.append(poss0)
+                    elif self.color == "Black":
+                        print("Moving a Black piece")
+                        if self.board[0].ret_color(self.loc[1]-1, self.loc[0]-1) == "W":
+                            print("White kill must be possibility")
+                            poss0 = [-1,-1]
+                            poss0[0] = self.loc[0]-1
+                            poss0[1] = self.loc[1]-1
+                            poss.append(poss0)
+            
+            
             # print("\tLocationC: ", self.loc)
             # print("\tPossibleC: ",possX)
         print("Possibles: ", poss)
@@ -140,10 +217,13 @@ class Piece:
         self.board[0].set_id(self.loc[1], self.loc[0], self.id)
         if self.direction == "Up" and self.loc[0] == 0:
             print("\t\tRANK UP")
-            return 99
+            return "Rank Up"
         elif self.direction == "Down" and self.loc[0] == 7:
             print("\t\tRANK UP")
-            return 99
+            return "Rank Up"
+        if self.pawn_fm == False:
+            self.pawn_fm = True
+        
         return "Move"
     
     def moveHorse(self):
