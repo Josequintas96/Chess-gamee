@@ -71,14 +71,23 @@ class Piece:
     def poss_movement(self, poss):
         if self.name == "Pawn":
             self.poss_movePawn(poss)
-        elif self.horse == "Horse":
-            self.moveHorse()    
+        elif self.name == "Horse":
+            self.poss_moveHorse(poss)    
+        elif self.name == "Rook":
+            print("Possible Rook")
+            self.poss_moveRook(poss) 
+
+
+
 
     def movement(self, pX,pY):
         if self.name == "Pawn":
             return self.movePawn (pX,pY)
-        elif self.horse == "Horse":
-            self.moveHorse()
+        elif self.name == "Horse":
+            self.movePiece(pX, pY)
+        elif self.name == "Rook":
+            self.movePiece(pX, pY)
+        
             
     def poss_movePawn(self, poss):
         print("Location: [", self.loc[0], " , ", self.loc[1], "]")
@@ -208,13 +217,115 @@ class Piece:
         print("<><><><><><><><><><><>")
         
         # return "move"
+        
+
+    def poss_moveHorse(self, poss):
+        print("\tStage 2 Move Horse")
+        
+    def poss_moveRook(self, poss):
+        print("\tStagee 2 Move Rook")
+        poss.clear()
+        print("\t\tLocation: [", self.loc[0], " , ", self.loc[1], "]")
+        
+        #set up the compass
+        #North:
+        i0 = self.loc[0]
+        i_m = 1
+        while i0 >0:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]-i_m
+            poss0[1] = self.loc[1]
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=-1
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0=-1
+            else:
+                poss.append(poss0)
+                i0-=1
+                i_m +=1
+        #South
+        i0 = self.loc[0]
+        i_m = 1
+        while i0 < 7:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]+i_m
+            poss0[1] = self.loc[1]
+            print("For possition: ", poss0)
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=8
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece ", self.id, " and ", i0)
+                i0+=1
+            else:
+                poss.append(poss0)
+                i0+=1
+                i_m +=1
+        #East
+        i0 = self.loc[1]
+        i_m = 1
+        while i0 <7:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]
+            poss0[1] = self.loc[1]+i_m
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=8
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0+=1
+            else:
+                poss.append(poss0)
+                i0+=1
+                i_m +=1
+
+        #West
+        i0 = self.loc[1]
+        i_m = 1
+        while i0 >0:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]
+            poss0[1] = self.loc[1]-i_m
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=0
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0-=1
+            else:
+                poss.append(poss0)
+                i0-=1
+                i_m +=1
+        
+        
+        print("\t\ttPossibles: ", poss)
+        print("<><><><><><><><><><><>")
+        
+
+
             
 
     def movePawn(self, pX, pY ):
         self.board[0].set_id(self.loc[1], self.loc[0], -1)
+        self.board[0].set_color(self.loc[1], self.loc[0], "n")
         print("HERE IS A PAWN => ", pX, " $ ", pY)
         self.loc = (pX, pY)
         self.board[0].set_id(self.loc[1], self.loc[0], self.id)
+        if self.color == "White":
+            self.board[0].set_color(self.loc[1], self.loc[0], "W")
+        else:
+            self.board[0].set_color(self.loc[1], self.loc[0], "B")
+        
         if self.direction == "Up" and self.loc[0] == 0:
             print("\t\tRANK UP")
             return "Rank Up"
@@ -225,9 +336,21 @@ class Piece:
             self.pawn_fm = True
         
         return "Move"
-    
-    def moveHorse(self):
-        print("HERE IS A HORSE")
+        
+    def movePiece(self, pX, pY):
+        #clean the color and the location on board
+        self.board[0].set_id(self.loc[1], self.loc[0], -1)
+        self.board[0].set_color(self.loc[1], self.loc[0], "n")
+        print("\tHERE IS A " , self.name, " => ", pX, " & ", pY)
+        self.loc = (pX, pY)
+        self.board[0].set_id(self.loc[1], self.loc[0], self.id)
+        if self.color == "White":
+            self.board[0].set_color(self.loc[1], self.loc[0], "W")
+        else:
+            self.board[0].set_color(self.loc[1], self.loc[0], "B")
+            
+        print("NEW PIECE LOCATION: ", self.loc)
+        return "Move"
         
     def callPiece(self):
         print("Name: ", self.name)
@@ -238,8 +361,8 @@ class Piece:
     def locate_piece(self,pY,pX, nameX):
         # Change location on board and save the X/Y location on Piece
         # Remember X and Y inverse on pieces
-        self.location = self.board[0].set_locate(pX,pY, nameX)
-        #save thee location of pieece
+        # self.location = self.board[0].set_locate(pX,pY, nameX)
+        # save thee location of pieece
         self.loc = (pX,pY)
     
     def print_piece(self):

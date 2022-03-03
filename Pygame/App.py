@@ -61,10 +61,19 @@ class App:
 
         # (208, 155)
         PieceX = Piece( 0, "Pawn", "White",  self.board_Omega, "Down", (0,0))
-        PieceX2 = Piece(1, "Pawn", "Black",  self.board_Omega, "Up", (1,1))
+        PieceX2 = Piece(1, "Pawn", "Black",  self.board_Omega, "Up", (1,2))
         self.piece_Omega = []
         self.piece_Omega.append(PieceX)
         self.piece_Omega.append(PieceX2)
+        
+        PieceX3 = Piece(2, "Rook", "Black",  self.board_Omega, "Up", (7,7))
+        PieceX4 = Piece(3, "Rook", "White",  self.board_Omega, "Up", (0,1))
+        self.piece_Omega.append(PieceX3)
+        self.piece_Omega.append(PieceX4)
+        
+        PieceX5 = Piece(4, "Pawn", "Black",  self.board_Omega, "Up", (3,3))
+        self.piece_Omega.append(PieceX5)
+        
         
         #mouse section variables
         self.mouse_control.append(-1)
@@ -211,6 +220,8 @@ class App:
             if self.piece_Omega[i0].ret_active():
                 if self.piece_Omega[i0].ret_name() == "Pawn":
                     pawn_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+                if self.piece_Omega[i0].ret_name() == "Rook":
+                    rook_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
             i0+=1
         # print("<><><><><><><>")
             
@@ -249,11 +260,16 @@ class App:
                                 # self.mouse_possibles.clear()
                                 # self.mouse_possibles.append((self.mouse_control[0], self.mouse_control[1]))
                                 self.mouse_id = self.board_Omega[0].ret_id(self.mouse_control[1], self.mouse_control[0])
-                                print("Print board, active mouse; ID=> ", self.mouse_id)
                                 
-                                if self.mouse_id >=0:
-                                    print("This is the id: ",self.mouse_id)
-                                    self.piece_Omega[self.mouse_id].poss_movement(self.mouse_possibles)
+                                #veerify that id is on limit indicates
+                                if self.mouse_id < len(self.piece_Omega):
+                                    print("Print board, active mouse; ID=> ", self.mouse_id)
+                                    
+                                    if self.mouse_id >=0:
+                                        print("This is the id: ",self.mouse_id)
+                                        self.piece_Omega[self.mouse_id].poss_movement(self.mouse_possibles)
+                                else:
+                                    print("The ID si not respected  to the set pieces")
                             else:
                                 print("MISS BOARDD")
                                 self.mouse_possibles.clear()
@@ -270,9 +286,13 @@ class App:
                                     
                                     #section to kill a piece
                                     if self.board_Omega[0].ret_id(self.mouse_control[1], self.mouse_control[0]) != -1:
-                                        print("A kill shoould happen")
                                         kill_id = self.board_Omega[0].ret_id(self.mouse_control[1], self.mouse_control[0])
+                                        print("A kill should happen on ID => ", kill_id)
                                         self.piece_Omega[kill_id].set_active(False)
+                                        #kill color on location
+                                        self.board_Omega[0].set_color(self.mouse_control[1], self.mouse_control[0], "n" )
+                                        
+                                        
                                     
                                     moveX = self.piece_Omega[self.mouse_id].movement(self.mouse_control[0], self.mouse_control[1])
                                     print("\t\t M=> ", moveX)
@@ -323,7 +343,7 @@ class App:
                             print("Key b has been pressed")
                             # self.piece_Omega[0].set_dirrection("Up")
                             # self.piece_Omega[0].locate_piece(7,0, self.piece_Omega[0].ret_color())
-                            self.piece_Omega[0].board[0].print_piece_set()
+                            # self.piece_Omega[0].board[0].print_piece_set()
                 
                     if event.key == pygame.K_c:
                         print("Key c has been pressed")
