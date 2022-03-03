@@ -40,7 +40,14 @@ def pawn_P(pX, pY, color, App):
         App.screen.blit( white_pawn, (pX-5, pY-5))
     elif color == "Black":
         App.screen.blit( black_pawn, (pX-5, pY-5))
-        
+
+def horse_P(pX, pY, color, App):
+    if color == "White":
+        App.screen.blit( white_horse, (pX-5, pY-5))
+    elif color == "Black":
+        App.screen.blit( black_horse, (pX-5, pY-5))        
+
+
 def rook_P(pX, pY, color, App):
     if color == "White":
         App.screen.blit( white_rook, (pX-5, pY-5))

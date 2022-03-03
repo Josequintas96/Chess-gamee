@@ -221,6 +221,137 @@ class Piece:
 
     def poss_moveHorse(self, poss):
         print("\tStage 2 Move Horse")
+        poss.clear()
+        print("\t\tLocation: [", self.loc[0], " , ", self.loc[1], "]")
+        #set up the compass
+        #North:
+        i0 = self.loc[0]-2
+        if i0 >=0:
+            i1 = self.loc[1]
+            if i1+1 <=7:
+                poss0=[-1,-1]
+                poss0[0] = i0
+                poss0[1] = i1+1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0) 
+            if i1-1>=0:
+                poss0=[-1,-1]
+                poss0[0] = i0
+                poss0[1] = i1-1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+        #South
+        i0 = self.loc[0]+2
+        if i0 <8:
+            i1 = self.loc[1]
+            if i1+1 <=7:
+                poss0=[-1,-1]
+                poss0[0] = i0
+                poss0[1] = i1+1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0) 
+            if i1-1>=0:
+                poss0=[-1,-1]
+                poss0[0] = i0
+                poss0[1] = i1-1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+        
+        #East
+        i1 = self.loc[1]+2
+        if i1 <8:
+            i0 = self.loc[0]
+            if i0+1 <=7:
+                poss0=[-1,-1]
+                poss0[0] = i0+1
+                poss0[1] = i1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0) 
+            if i0-1>=0:
+                poss0=[-1,-1]
+                poss0[0] = i0-1
+                poss0[1] = i1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+                    
+        #Weast
+        i1 = self.loc[1]-2
+        if i1 >=0:
+            i0 = self.loc[0]
+            if i0+1 <=7:
+                poss0=[-1,-1]
+                poss0[0] = i0+1
+                poss0[1] = i1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0) 
+            if i0-1>=0:
+                poss0=[-1,-1]
+                poss0[0] = i0-1
+                poss0[1] = i1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+        print("\t\ttPossibles: ", poss)
+        print("<><><><><><><><><><><>")
+        
+            
+        
+        
         
     def poss_moveRook(self, poss):
         print("\tStagee 2 Move Rook")

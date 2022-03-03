@@ -71,7 +71,7 @@ class App:
         self.piece_Omega.append(PieceX3)
         self.piece_Omega.append(PieceX4)
         
-        PieceX5 = Piece(4, "Pawn", "Black",  self.board_Omega, "Up", (3,3))
+        PieceX5 = Piece(4, "Horse", "Black",  self.board_Omega, "Up", (3,3))
         self.piece_Omega.append(PieceX5)
         
         
@@ -220,8 +220,10 @@ class App:
             if self.piece_Omega[i0].ret_active():
                 if self.piece_Omega[i0].ret_name() == "Pawn":
                     pawn_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
-                if self.piece_Omega[i0].ret_name() == "Rook":
+                elif self.piece_Omega[i0].ret_name() == "Rook":
                     rook_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+                elif self.piece_Omega[i0].ret_name() == "Horse":
+                    horse_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
             i0+=1
         # print("<><><><><><><>")
             
