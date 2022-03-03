@@ -74,6 +74,15 @@ class App:
         PieceX5 = Piece(4, "Horse", "Black",  self.board_Omega, "Up", (3,3))
         self.piece_Omega.append(PieceX5)
         
+        PieceX6 = Piece(5, "Bishop", "Black",  self.board_Omega, "Up", (7,4))
+        self.piece_Omega.append(PieceX6)
+        
+        PieceX7 = Piece(6, "Queen", "Black",  self.board_Omega, "Up", (7,5))
+        self.piece_Omega.append(PieceX7)
+        
+        PieceX8 = Piece(7, "King", "Black",  self.board_Omega, "Up", (4,4))
+        self.piece_Omega.append(PieceX8)
+        
         
         #mouse section variables
         self.mouse_control.append(-1)
@@ -224,6 +233,13 @@ class App:
                     rook_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
                 elif self.piece_Omega[i0].ret_name() == "Horse":
                     horse_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+                elif self.piece_Omega[i0].ret_name() == "Bishop":
+                    bishop_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+                elif self.piece_Omega[i0].ret_name() == "Queen":
+                    queen_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+                elif self.piece_Omega[i0].ret_name() == "King":
+                    king_P(sp_loc[0], sp_loc[1], self.piece_Omega[i0].ret_color(), App)
+                    
             i0+=1
         # print("<><><><><><><>")
             

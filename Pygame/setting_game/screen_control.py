@@ -54,3 +54,23 @@ def rook_P(pX, pY, color, App):
     elif color == "Black":
         App.screen.blit( black_rook, (pX-5, pY-5))
 
+
+def bishop_P(pX, pY, color, App):
+    if color == "White":
+        App.screen.blit( white_bishop, (pX-5, pY-5))
+    elif color == "Black":
+        App.screen.blit( black_bishop, (pX-5, pY-5))
+        
+def queen_P(pX, pY, color, App):
+    if color == "White":
+        App.screen.blit( white_queen, (pX-5, pY-5))
+    elif color == "Black":
+        App.screen.blit( black_queen, (pX-5, pY-5))
+        
+def king_P(pX, pY, color, App):
+    if color == "White":
+        App.screen.blit( white_king, (pX-5, pY-5))
+    elif color == "Black":
+        App.screen.blit( black_king, (pX-5, pY-5))
+
+

@@ -74,8 +74,13 @@ class Piece:
         elif self.name == "Horse":
             self.poss_moveHorse(poss)    
         elif self.name == "Rook":
-            print("Possible Rook")
             self.poss_moveRook(poss) 
+        elif self.name == "Bishop":
+            self.poss_moveBishop(poss)
+        elif self.name == "Queen":
+            self.poss_moveQueen(poss)
+        elif self.name == "King":
+            self.poss_moveKing(poss)
 
 
 
@@ -86,6 +91,12 @@ class Piece:
         elif self.name == "Horse":
             self.movePiece(pX, pY)
         elif self.name == "Rook":
+            self.movePiece(pX, pY)
+        elif self.name == "Bishop":
+            self.movePiece(pX, pY)
+        elif self.name == "Queen":
+            self.movePiece(pX, pY)
+        elif self.name == "King":
             self.movePiece(pX, pY)
         
             
@@ -350,6 +361,108 @@ class Piece:
         print("<><><><><><><><><><><>")
         
             
+    def poss_moveBishop(self, poss):
+        print("\tStage 2 Move Bishop")
+        poss.clear()
+        print("\t\tLocation: [", self.loc[0], " , ", self.loc[1], "]")
+        #Angle: 45
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0>0 and i1 >0:
+            poss0=[-1,-1]
+            poss0[0] = i0-1
+            poss0[1] = i1-1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = -1
+                i1 = -1
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = -1
+                i1 = -1
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 -= 1
+                i1 -= 1
+            
+            
+        
+        
+        #Angle 135
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0>0 and i1 <7:
+            poss0=[-1,-1]
+            poss0[0] = i0-1
+            poss0[1] = i1+1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = -1
+                i1 = 7
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = -1
+                i1 = 7
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 -= 1
+                i1 += 1        
+        
+        
+        #Angle 225
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0<7 and i1 <7:
+            poss0=[-1,-1]
+            poss0[0] = i0+1
+            poss0[1] = i1+1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = 7
+                i1 = 7
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = 7
+                i1 = 7
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 += 1
+                i1 += 1   
+        
+        #Angle 315
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0<7 and i1 >0:
+            poss0=[-1,-1]
+            poss0[0] = i0+1
+            poss0[1] = i1-1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = 7
+                i1 = 7
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = 7
+                i1 = 7
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 += 1
+                i1 -= 1
+        
+        print("\t\ttPossibles: ", poss)
+        print("<><><><><><><><><><><>")
         
         
         
@@ -393,7 +506,7 @@ class Piece:
                 i0=8
             elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
                 print("\t\t\t Reach Same piece ", self.id, " and ", i0)
-                i0+=1
+                i0 = 8
             else:
                 poss.append(poss0)
                 i0+=1
@@ -412,7 +525,7 @@ class Piece:
                 i0=8
             elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
                 print("\t\t\t Reach Same piece")
-                i0+=1
+                i0=8
             else:
                 poss.append(poss0)
                 i0+=1
@@ -432,7 +545,7 @@ class Piece:
                 i0=0
             elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
                 print("\t\t\t Reach Same piece")
-                i0-=1
+                i0= -1
             else:
                 poss.append(poss0)
                 i0-=1
@@ -442,7 +555,325 @@ class Piece:
         print("\t\ttPossibles: ", poss)
         print("<><><><><><><><><><><>")
         
+        
+    def poss_moveQueen(self, poss):
+        print("\tStage 2 Move Queen")
+        poss.clear()
+        print("\t\tLocation: [", self.loc[0], " , ", self.loc[1], "]")
+        
+        #set up the compass
+        #North:
+        i0 = self.loc[0]
+        i_m = 1
+        while i0 >0:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]-i_m
+            poss0[1] = self.loc[1]
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=-1
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0=-1
+            else:
+                poss.append(poss0)
+                i0-=1
+                i_m +=1
+        #South
+        i0 = self.loc[0]
+        i_m = 1
+        while i0 < 7:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]+i_m
+            poss0[1] = self.loc[1]
+            print("For possition: ", poss0)
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=8
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece ", self.id, " and ", i0)
+                i0 = 8
+            else:
+                poss.append(poss0)
+                i0+=1
+                i_m +=1
+        #East
+        i0 = self.loc[1]
+        i_m = 1
+        while i0 <7:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]
+            poss0[1] = self.loc[1]+i_m
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=8
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0=8
+            else:
+                poss.append(poss0)
+                i0+=1
+                i_m +=1
 
+        #West
+        i0 = self.loc[1]
+        i_m = 1
+        while i0 >0:
+            poss0=[-1,-1]
+            poss0[0] = self.loc[0]
+            poss0[1] = self.loc[1]-i_m
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0=0
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0=-1
+            else:
+                poss.append(poss0)
+                i0-=1
+                i_m +=1
+                
+        
+        #Angle: 45
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0>0 and i1 >0:
+            poss0=[-1,-1]
+            poss0[0] = i0-1
+            poss0[1] = i1-1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = -1
+                i1 = -1
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = -1
+                i1 = -1
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 -= 1
+                i1 -= 1
+            
+            
+        
+        
+        #Angle 135
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0>0 and i1 <7:
+            poss0=[-1,-1]
+            poss0[0] = i0-1
+            poss0[1] = i1+1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = -1
+                i1 = 7
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = -1
+                i1 = 7
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 -= 1
+                i1 += 1        
+        
+        
+        #Angle 225
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0<7 and i1 <7:
+            poss0=[-1,-1]
+            poss0[0] = i0+1
+            poss0[1] = i1+1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = 7
+                i1 = 7
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = 7
+                i1 = 7
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 += 1
+                i1 += 1   
+        
+        #Angle 315
+        i0 = self.loc[0]
+        i1 = self.loc[1]
+        while i0<7 and i1 >0:
+            poss0=[-1,-1]
+            poss0[0] = i0+1
+            poss0[1] = i1-1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+                i0 = 7
+                i1 = 7
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+                i0 = 7
+                i1 = 7
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                i0 += 1
+                i1 -= 1
+                
+        print("\t\ttPossibles: ", poss)
+        print("<><><><><><><><><><><>")
+
+    
+    def poss_moveKing(self, poss):
+        print("\tStage 2 Move Queen")
+        poss.clear()
+        print("\t\tLocation: [", self.loc[0], " , ", self.loc[1], "]")
+        
+        #Up
+        i0 = self.loc[0]
+        if i0 >0:
+            i1 = self.loc[1]
+            if i1 >0:
+                poss0=[-1,-1]
+                poss0[0] = i0-1
+                poss0[1] = i1-1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+            if i1<7:
+                poss0=[-1,-1]
+                poss0[0] = i0-1
+                poss0[1] = i1+1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+                    
+            poss0=[-1,-1]
+            poss0[0] = i0-1
+            poss0[1] = i1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                
+        
+        #Down
+        i0 = self.loc[0]
+        if i0 <7 :
+            i1 = self.loc[1]
+            if i1 >0:
+                poss0=[-1,-1]
+                poss0[0] = i0+1
+                poss0[1] = i1-1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+            if i1<7:
+                poss0=[-1,-1]
+                poss0[0] = i0+1
+                poss0[1] = i1+1
+                strX = self.board[0].ret_color(poss0[1], poss0[0])
+                if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                    print("\t\t\t Reach Opp piece")
+                    poss.append(poss0)
+                elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                    print("\t\t\t Reach Same piece")
+                else:
+                    print("\t\t\t Move piece")
+                    poss.append(poss0)
+                    
+            poss0=[-1,-1]
+            poss0[0] = i0+1
+            poss0[1] = i1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+               
+ 
+        #Side L
+        i1 = self.loc[1]
+        if i1 >0:
+            poss0=[-1,-1]
+            poss0[0] = i0
+            poss0[1] = i1-1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                
+                
+        #Side R
+        i1 = self.loc[1]
+        if i1 <7:
+            poss0=[-1,-1]
+            poss0[0] = i0
+            poss0[1] = i1+1
+            strX = self.board[0].ret_color(poss0[1], poss0[0])
+            if (strX == "W" and self.color == "Black") or (strX == "B" and self.color == "White") :
+                print("\t\t\t Reach Opp piece")
+                poss.append(poss0)
+            elif (strX == "W" and self.color == "White") or (strX == "B" and self.color == "Black"):
+                print("\t\t\t Reach Same piece")
+            else:
+                print("\t\t\t Move piece")
+                poss.append(poss0)
+                
+                
+         
+        print("\t\ttPossibles: ", poss)
+        print("<><><><><><><><><><><>")
 
             
 
