@@ -1,3 +1,4 @@
+from turtle import circle
 import pygame
 
 
@@ -16,6 +17,11 @@ Rbishop = pygame.image.load(image_special_R + "R_Bishop.png")
 RQueen = pygame.image.load(image_special_R + "R_Queen.png")
 RRook = pygame.image.load(image_special_R + "R_Rook.png")
 Rsquare = pygame.image.load(image_special_R + "R_square.png")
+
+lett_p = pygame.image.load(image_special_R + "p_64.png")
+one_p = pygame.image.load(image_special_R + "one_64.png")
+two_p = pygame.image.load(image_special_R + "two_64.png")
+circle_p = pygame.image.load(image_special_R + "circle.png")
 
 
 #pieces

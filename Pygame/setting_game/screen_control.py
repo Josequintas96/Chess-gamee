@@ -97,3 +97,17 @@ def king_P(pX, pY, color, App):
         App.screen.blit( black_king, (pX-5, pY-5))
 
 
+
+def two_D(pX, pY, App):
+    App.screen.blit( two_p, (pX, pY))
+
+def one_D(pX, pY, App):
+    App.screen.blit( one_p, (pX, pY))
+
+def p_D(pX, pY, App):
+    App.screen.blit( lett_p, (pX, pY))
+    
+def circle_D(pX, pY, App):
+    App.screen.blit( circle_p , (pX, pY))
+
+

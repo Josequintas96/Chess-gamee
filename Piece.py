@@ -21,13 +21,17 @@ class Piece:
         self.board = boardX
         self.direction = directionX
         self.loc = locX
+        print("Piece locX => ",  self.loc)
         self.locate_piece(self.loc[1], self.loc[0], self.color)
         print("Piece ID: ", self.id)
+        poss_id = []
+        self.poss_loc.append(poss_id)
         self.board[0].set_id(self.loc[1], self.loc[0], self.id)
         if self.color == "White":
             self.board[0].set_color(self.loc[1], self.loc[0], "W")
         elif self.color == "Black":
             self.board[0].set_color(self.loc[1], self.loc[0], "B")
+        self.set_up_poss_mov()
         
     def set_name(self, nameX):
         self.name = nameX
@@ -69,10 +73,14 @@ class Piece:
         return self.direction
     
     def print_poss(self):
-        print("This is a poss: ", self.poss_loc)
+        print("This is a poss: ", self.poss_loc[self.id])
     
     def set_up_poss_mov(self):
-        self.poss_movement(self.poss_loc)
+        self.poss_movement(self.poss_loc[self.id])
+        
+    def no_poss_mov(self):
+        #clean, eemptythelistofpossibiitesasnow the piece can not move => is death
+        self.poss_loc[self.id].clear()
     
     
     def poss_movement(self, poss):
@@ -118,22 +126,25 @@ class Piece:
             # pre_poss = self.loc
             #remeember the X/Y on board/Pieces are twisted compared to the display => therefore you must twist before returnning
             
-            if self.pawn_fm == False:
-                poss0 = [-1,-1]
-                poss0[0] = self.loc[0]+2
-                poss0[1] = self.loc[1]
-                poss.append(poss0)
-                
-                poss0 = [-1,-1]
-                poss0[0] = self.loc[0]+1
-                poss0[1] = self.loc[1]
-                poss.append(poss0)
-                
-            else:
-                poss0 = [-1,-1]
-                poss0[0] = self.loc[0]+1
-                poss0[1] = self.loc[1]
-                poss.append(poss0)
+            if self.board[0].ret_id(self.loc[1], self.loc[0]+1) == -1:
+                if self.pawn_fm == False and self.loc[0] != 6:
+                    # in_front = self.board[0].ret_color(self.loc[1]+1, self.loc[0]+1) 
+                    # if (in_front != "B") and (in_front != "W"):
+                    poss0 = [-1,-1]
+                    poss0[0] = self.loc[0]+2
+                    poss0[1] = self.loc[1]
+                    poss.append(poss0)
+                    
+                    poss0 = [-1,-1]
+                    poss0[0] = self.loc[0]+1
+                    poss0[1] = self.loc[1]
+                    poss.append(poss0)
+                    
+                else:
+                    poss0 = [-1,-1]
+                    poss0[0] = self.loc[0]+1
+                    poss0[1] = self.loc[1]
+                    poss.append(poss0)
                 
                 
             if self.loc[0] >=0 and self.loc[0] <7:
@@ -157,7 +168,8 @@ class Piece:
                 if self.loc[1] >0 and self.loc[1]<=7:
                     if self.color == "White":
                         print("Moving a white piece")
-                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]-1) == "B":
+                        #circumsttancee of kill movementt
+                        if self.board[0].ret_color(self.loc[1]-1, self.loc[0]+1) == "B":
                             print("\tBlack kill must be possibility")
                             poss0 = [-1,-1]
                             poss0[0] = self.loc[0]+1
@@ -165,32 +177,34 @@ class Piece:
                             poss.append(poss0)
                     elif self.color == "Black":
                         print("Moving a Black piece")
-                        if self.board[0].ret_color(self.loc[1]+1, self.loc[0]-1) == "W":
+                        if self.board[0].ret_color(self.loc[1]-1, self.loc[0]+1) == "W":
                             print("White kill must be possibility")
                             poss0 = [-1,-1]
                             poss0[0] = self.loc[0]+1
                             poss0[1] = self.loc[1]-1
                             poss.append(poss0)
+                            
         if self.direction == "Up":
             if self.loc[0] == 0:
                 return None
             
-            if self.pawn_fm == False:
-                poss0 = [-1,-1]
-                poss0[0] = self.loc[0]-2
-                poss0[1] = self.loc[1]
-                poss.append(poss0)
-                
-                poss0 = [-1,-1]
-                poss0[0] = self.loc[0]-1
-                poss0[1] = self.loc[1]
-                poss.append(poss0)
-                
-            else:
-                poss0 = [-1,-1]
-                poss0[0] = self.loc[0]-1
-                poss0[1] = self.loc[1]
-                poss.append(poss0)
+            if self.board[0].ret_id(self.loc[1], self.loc[0]-1) == -1:
+                if self.pawn_fm == False and self.loc[0] != 1:
+                    poss0 = [-1,-1]
+                    poss0[0] = self.loc[0]-2
+                    poss0[1] = self.loc[1]
+                    poss.append(poss0)
+                    
+                    poss0 = [-1,-1]
+                    poss0[0] = self.loc[0]-1
+                    poss0[1] = self.loc[1]
+                    poss.append(poss0)
+                    
+                else:
+                    poss0 = [-1,-1]
+                    poss0[0] = self.loc[0]-1
+                    poss0[1] = self.loc[1]
+                    poss.append(poss0)
                 
             if self.loc[0] <=7 and self.loc[0] >0:
                 if self.loc[1] >=0 and self.loc[1]<7:

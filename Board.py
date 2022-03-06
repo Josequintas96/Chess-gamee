@@ -97,7 +97,10 @@ class Board():
         return self.id_set[i1][i0]
     
     def ret_color(self, i1,i0):
+        print("\t\t i1 => ", i1)
+        print("\t\t i0 => ", i0)
         return self.color_set[i1][i0]
+
             
     # def ret_board_set(self, pX, pY):
     #     print("\tThis board => ", self.board_set[(pX, pY)] )
