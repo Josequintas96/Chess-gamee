@@ -8,6 +8,7 @@ import sys
 sys.path.append('../')
 from Board import *
 from Piece import *
+from Player import *
 from setting_game.download_control import *
 from setting_game.screen_control import *
 
@@ -40,6 +41,9 @@ class App:
     mouse_possibles = []
     board_Omega = []
     mouse_id = -1 #this is valuuee to register the id of piece
+    player_Omega = None
+    rank_occurence = -1 #this is a value in case that RANK UP occur
+    rank_string = []
 
     def __init__(self):
         """Initialize pygame and the application."""
@@ -60,28 +64,31 @@ class App:
         self.board_Omega.append(boardX)
 
         # (208, 155)
-        PieceX = Piece( 0, "Pawn", "White",  self.board_Omega, "Down", (0,0))
-        PieceX2 = Piece(1, "Pawn", "Black",  self.board_Omega, "Up", (1,2))
-        self.piece_Omega = []
-        self.piece_Omega.append(PieceX)
-        self.piece_Omega.append(PieceX2)
+        self.piece_Omega=[]
+        self.player_Omega = Player("1", "Black", self.piece_Omega, self.board_Omega)
         
-        PieceX3 = Piece(2, "Rook", "Black",  self.board_Omega, "Up", (7,7))
-        PieceX4 = Piece(3, "Rook", "White",  self.board_Omega, "Up", (0,1))
-        self.piece_Omega.append(PieceX3)
-        self.piece_Omega.append(PieceX4)
+        # PieceX = Piece( 0, "Pawn", "White",  self.board_Omega, "Down", (0,0))
+        # PieceX2 = Piece(1, "Pawn", "Black",  self.board_Omega, "Up", (1,2))
+        # self.piece_Omega = []
+        # self.piece_Omega.append(PieceX)
+        # self.piece_Omega.append(PieceX2)
         
-        PieceX5 = Piece(4, "Horse", "Black",  self.board_Omega, "Up", (3,3))
-        self.piece_Omega.append(PieceX5)
+        # PieceX3 = Piece(2, "Rook", "Black",  self.board_Omega, "Up", (7,7))
+        # PieceX4 = Piece(3, "Rook", "White",  self.board_Omega, "Up", (0,1))
+        # self.piece_Omega.append(PieceX3)
+        # self.piece_Omega.append(PieceX4)
         
-        PieceX6 = Piece(5, "Bishop", "Black",  self.board_Omega, "Up", (7,4))
-        self.piece_Omega.append(PieceX6)
+        # PieceX5 = Piece(4, "Horse", "Black",  self.board_Omega, "Up", (3,3))
+        # self.piece_Omega.append(PieceX5)
         
-        PieceX7 = Piece(6, "Queen", "Black",  self.board_Omega, "Up", (7,5))
-        self.piece_Omega.append(PieceX7)
+        # PieceX6 = Piece(5, "Bishop", "Black",  self.board_Omega, "Up", (7,4))
+        # self.piece_Omega.append(PieceX6)
         
-        PieceX8 = Piece(7, "King", "Black",  self.board_Omega, "Up", (4,4))
-        self.piece_Omega.append(PieceX8)
+        # PieceX7 = Piece(6, "Queen", "Black",  self.board_Omega, "Up", (7,5))
+        # self.piece_Omega.append(PieceX7)
+        
+        # PieceX8 = Piece(7, "King", "Black",  self.board_Omega, "Up", (4,4))
+        # self.piece_Omega.append(PieceX8)
         
         
         #mouse section variables
@@ -91,6 +98,9 @@ class App:
 
 
         App.running = True
+        
+    def display_rank_board(self, pX, pY, App, loc):
+        square_board(pX, pY, App, loc)
         
         
     def display_board(self, pX, pY, App, loc):
@@ -154,6 +164,21 @@ class App:
                 i1+=1
             i0+=1
         return False
+    
+    def press_on_rank(self, loc, str_rank):
+        # (pX2+64*i0+10, pY2)
+        print("Rank control")
+        pX = 373
+        pY = 227
+        if loc[1] > pY and pY < pY+64:
+            if loc[0] > pX and loc[0]< pX+64:
+                str_rank.append("Rook")
+            elif loc[0] > pX+74 and loc[0]< pX+138:
+                str_rank.append("Horse")
+            elif loc[0] > pX+138 and loc[0]< pX+202:
+                str_rank.append("Bishop")
+            elif loc[0] > pX+202 and loc[0]< pX+266:
+                str_rank.append("Queen")
 
 
     def display_board_Possibilities(self, pX,pY, App, possibles):
@@ -272,7 +297,22 @@ class App:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         print("location is ", loc)
-                        if self.mouse_piece == False:
+                        
+                        
+                        #This section is to reference the RANK UP situation
+                        if self.rank_occurence == 1:
+                            print("RANK SET UP")
+                            self.rank_string.clear()
+                            self.press_on_rank(loc, self.rank_string)
+                            if len(self.rank_string)==1:
+                                print("You have Rank up => ", self.mouse_id , " to " , self.rank_string[0])
+                                self.piece_Omega[self.mouse_id].set_name(self.rank_string[0])
+                                self.rank_occurence = -1
+                                
+                            
+                        
+                        
+                        elif self.mouse_piece == False:
                             if self.press_on_board( (100, 50) , loc , self.mouse_control):
                                 self.mouse_piece = True
                                 # self.mouse_possibles.clear()
@@ -285,7 +325,8 @@ class App:
                                     
                                     if self.mouse_id >=0:
                                         print("This is the id: ",self.mouse_id)
-                                        self.piece_Omega[self.mouse_id].poss_movement(self.mouse_possibles)
+                                        self.piece_Omega[self.mouse_id].set_up_poss_mov()
+                                        # self.piece_Omega[self.mouse_id].poss_movement(self.mouse_possibles)
                                 else:
                                     print("The ID si not respected  to the set pieces")
                             else:
@@ -293,13 +334,15 @@ class App:
                                 self.mouse_possibles.clear()
                                 self.mouse_id = -1
                         else:
+                            #In this section wheen we press the piece, we are moving the piecee
                             if self.press_on_board( (100, 50) , loc , self.mouse_control):
                                 print("Press possibility")
                                 print("\t Mouse Control ", self.mouse_control)
                                 print("\t Mouse Possibility ", self.mouse_possibles)
                                 #confirm if kill piece
                                 
-                                if self.mouse_control in self.mouse_possibles and self.mouse_id != -1:
+                                # if self.mouse_control in self.mouse_possibles and self.mouse_id != -1:
+                                if self.mouse_id != -1 and (self.mouse_control in self.piece_Omega[self.mouse_id].poss_loc) :
                                     print("\tPossibility on This  id: ",self.mouse_id)
                                     
                                     #section to kill a piece
@@ -311,13 +354,17 @@ class App:
                                         self.board_Omega[0].set_color(self.mouse_control[1], self.mouse_control[0], "n" )
                                         
                                         
-                                    
+                                    #Move piece operation
                                     moveX = self.piece_Omega[self.mouse_id].movement(self.mouse_control[0], self.mouse_control[1])
                                     print("\t\t M=> ", moveX)
-                                    if moveX == 99:
-                                        print("RANK UP")
+                                    if moveX == "Rank Up":
+                                        self.rank_occurence = 1
+                                        print("RANK UP XXXX")
+                                    
+                                if self.rank_occurence == -1:    
+                                    #I neeed to save the ID, to know which piiecee is being RANK UP    
+                                    self.mouse_id = -1
                                 self.mouse_piece = False
-                                self.mouse_id = -1
                             else:
                                 print("MISS BOARDD")
                                 self.mouse_possibles.clear()
@@ -375,6 +422,9 @@ class App:
                         
                     if event.key == pygame.K_e:
                         print("Key e has been pressed")
+                        self.piece_Omega[0].set_up_poss_mov()
+                        print("This is a poss oof the " , self.mouse_id , "  => ")
+                        self.piece_Omega[0].print_poss()
                         
                         
                     if event.key == pygame.K_f:
@@ -454,13 +504,17 @@ class App:
             #if bellow screen.fill, then the image will be bellow the color
             #here start the display image
 
-            # self.display_board(100, 50, App, loc)
+            # This is thee display section
             
             if self.mouse_piece == False:
                  self.display_board( 100, 50, App, loc)
             else:
-                self.display_board_Possibilities(100, 50, App, self.mouse_possibles)
+                # self.display_board_Possibilities(100, 50, App, self.mouse_possibles)
+                self.display_board_Possibilities(100, 50, App, self.piece_Omega[self.mouse_id].poss_loc)
             self.display_piece(loc, App)
+            
+            if self.rank_occurence == 1:
+                self.display_rank_board(190, 275, App, loc)
             
             # pygame.draw.rect(App.screen, RED, App.rect, 1)
             pygame.display.update()

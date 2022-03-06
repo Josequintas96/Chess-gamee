@@ -10,6 +10,7 @@ class Piece:
     loc = (-1, -1) #location of piece on pX,pY
     board = None #board reference to board collection
     direction = "" #Down or Up
+    poss_loc = []
     pawn_fm = False #this mark if pawn, tthe first movee has yet happen
 
     def __init__(self,idX, nameX, colorX, boardX, directionX, locX):
@@ -66,6 +67,12 @@ class Piece:
     
     def ret_dirrection(self):
         return self.direction
+    
+    def print_poss(self):
+        print("This is a poss: ", self.poss_loc)
+    
+    def set_up_poss_mov(self):
+        self.poss_movement(self.poss_loc)
     
     
     def poss_movement(self, poss):

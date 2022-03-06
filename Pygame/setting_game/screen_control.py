@@ -34,6 +34,29 @@ def square_blank(pX, pY, sizeT, poss, App):
     else:
         App.screen.blit(sq_blank,(pX, pY))
         
+def square_board(pX, pY, App, loc):
+    #pX = 280
+    #pY = 275
+    #sizeof the pieces = 100
+    App.screen.blit( Sboard, (pX,pY))
+    pX2 = pX+40
+    pY2 = pY+120
+
+    App.screen.blit(RRook, (pX2, pY2))
+    i0 = 1
+    App.screen.blit(Rhorse, (pX2+120*i0, pY2))
+    i0 += 1
+    App.screen.blit(Rbishop, (pX2+120*i0, pY2))
+    i0 += 1
+    App.screen.blit(RQueen, (pX2+120*i0, pY2))
+    
+    i0 =0
+    while i0< 4:
+        if loc[1] > pY2 and loc[1] < pY2+100:
+            if loc[0] > pX2+120*i0 and loc[0]< pX2+120*i0+100:
+                App.screen.blit(Rsquare, (pX2+120*i0, pY2))
+        i0+=1
+
         
 def pawn_P(pX, pY, color, App):
     if color == "White":

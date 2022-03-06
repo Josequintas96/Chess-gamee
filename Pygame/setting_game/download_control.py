@@ -9,6 +9,14 @@ special_blank = pygame.image.load(image_special_R + "spcial_square_blank.png")
 special_black = pygame.image.load(image_special_R + "spcial_square_black.png")
 special2_blank = pygame.image.load(image_special_R + "spcial2_square_blank.png")
 special2_black = pygame.image.load(image_special_R + "spcial2_square_black.png")
+Sboard = pygame.image.load(image_special_R + "Sboard.png")
+
+Rhorse = pygame.image.load(image_special_R + "R_Horse.png")
+Rbishop = pygame.image.load(image_special_R + "R_Bishop.png")
+RQueen = pygame.image.load(image_special_R + "R_Queen.png")
+RRook = pygame.image.load(image_special_R + "R_Rook.png")
+Rsquare = pygame.image.load(image_special_R + "R_square.png")
+
 
 #pieces
 image_piece = "Image/pieces/"
