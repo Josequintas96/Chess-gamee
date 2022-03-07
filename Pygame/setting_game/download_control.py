@@ -29,6 +29,8 @@ winner_d = pygame.image.load(image_special_R + "WINNER.png")
 p1_d  = pygame.image.load(image_special_R + "P1.png")
 p2_d  = pygame.image.load(image_special_R + "P2.png")
 
+border_s = pygame.image.load(image_special_R + "Cheess_portrait.png")
+
 
 #pieces
 image_piece = "Image/pieces/"

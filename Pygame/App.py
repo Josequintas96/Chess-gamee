@@ -16,6 +16,7 @@ RED = (255, 0, 0)
 GRAY = (150, 150, 150)
 BOARD_X = 250 #BOARD S=X AXIS
 BOARD_Y = 50 #BOARD Y AXIS
+GREEN = (34,139,34)
 
 # pygame.init()
 
@@ -611,12 +612,13 @@ class App:
                         print("Delete key")       
 
             
-            App.screen.fill(GRAY)
+            App.screen.fill(GREEN)
             #if bellow screen.fill, then the image will be bellow the color
             #here start the display image
 
             # This is thee display section
             
+            border_potrait(BOARD_X-10, BOARD_Y-10, App)
             if self.mouse_piece == False:
                  self.display_board( BOARD_X, BOARD_Y, App, loc)
             else:

@@ -5,6 +5,8 @@ import sys
 sys.path.append('../')
 from App import *
 
+def border_potrait(pX, pY, App):
+    App.screen.blit(border_s,(pX, pY))
 
 def square_black(pX, pY, sizeT, poss, App):
     # design of the back card
