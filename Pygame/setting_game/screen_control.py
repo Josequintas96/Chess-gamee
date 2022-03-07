@@ -34,6 +34,9 @@ def square_blank(pX, pY, sizeT, poss, App):
     else:
         App.screen.blit(sq_blank,(pX, pY))
         
+def square_green( pX, pY, App):
+    App.screen.blit( green_square ,(pX, pY))
+        
 def square_board(pX, pY, App, loc):
     #pX = 280
     #pY = 275
@@ -57,6 +60,19 @@ def square_board(pX, pY, App, loc):
                 App.screen.blit(Rsquare, (pX2+120*i0, pY2))
         i0+=1
 
+
+def winner_board(pX, pY, App, winner):
+    #pX = 280
+    #pY = 275
+    #sizeof the pieces = 100
+    App.screen.blit( Sboard, (pX,pY))
+    pX2 = pX+25
+    pY2 = pY+70
+    App.screen.blit(winner_d, (pX2, pY2))
+    if winner == "P2":
+        App.screen.blit(p2_d, (pX2+355, pY2))
+    if winner == "P1":
+        App.screen.blit(p1_d, (pX2+355, pY2))
         
 def pawn_P(pX, pY, color, App):
     if color == "White":
@@ -110,4 +126,10 @@ def p_D(pX, pY, App):
 def circle_D(pX, pY, App):
     App.screen.blit( circle_p , (pX, pY))
 
+def check_D(pX, pY, App):
+    App.screen.blit( check_d , (pX,  pY))
+    
+def mate_D(pX, pY, App):
+    App.screen.blit( mate_d , (pX,  pY))    
+    
 

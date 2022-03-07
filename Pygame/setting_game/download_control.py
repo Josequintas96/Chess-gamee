@@ -22,6 +22,12 @@ lett_p = pygame.image.load(image_special_R + "p_64.png")
 one_p = pygame.image.load(image_special_R + "one_64.png")
 two_p = pygame.image.load(image_special_R + "two_64.png")
 circle_p = pygame.image.load(image_special_R + "circle.png")
+green_square = pygame.image.load(image_special_R + "S_square_board.png")
+check_d = pygame.image.load(image_special_R + "CHECK.png")
+mate_d = pygame.image.load(image_special_R + "MATE.png")
+winner_d = pygame.image.load(image_special_R + "WINNER.png")
+p1_d  = pygame.image.load(image_special_R + "P1.png")
+p2_d  = pygame.image.load(image_special_R + "P2.png")
 
 
 #pieces

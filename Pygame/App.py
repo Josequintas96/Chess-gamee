@@ -49,6 +49,20 @@ class App:
     rank_string = []
     express = 0
     expressY = 0
+    #control the turn of the game
+    black_turn = False
+    white_turn = True
+    #control if there is a CHECK on Player
+    check_p1 = False
+    check_p2 = False 
+    
+    #control if winner happen => king has being killed
+    win_p1 = False
+    win_p2 = False
+    
+    #savee the localization of mouse press when happen
+    mouse_click = [-1,-1]
+    
 
     def __init__(self):
         """Initialize pygame and the application."""
@@ -70,8 +84,8 @@ class App:
 
         # (208, 155)
         self.piece_Omega=[]
-        self.player_Omega1 = Player("1", "Black", self.piece_Omega, self.board_Omega)
-        self.player_Omega2 = Player("2", "White", self.piece_Omega, self.board_Omega)
+        self.player_Omega1 = Player("1", "White", self.piece_Omega, self.board_Omega)
+        self.player_Omega2 = Player("2", "Black", self.piece_Omega, self.board_Omega)
         
         self.player_Omega1.set_up_Player(0, "Up")
         self.player_Omega2.set_up_Player(16, "Down")
@@ -91,7 +105,12 @@ class App:
         
     def display_rank_board(self, pX, pY, App, loc):
         square_board(pX, pY, App, loc)
-        
+
+    def display_Check(self, pX, pY, App):
+        check_D(pX, pY, App) 
+    
+    def display_Win(self, pX, pY, App, winner):
+        winner_board(pX, pY, App,  winner)       
         
     def display_board(self, pX, pY, App, loc):
         i0 = 0
@@ -138,7 +157,7 @@ class App:
         # print("<><><><><><><><><><><><>><><><>><>><><><>")
 
 
-    def press_on_board(self, coordinate, loc, mouse_control):
+    def press_on_board(self, coordinate, loc, mouse_control, mouse_click):
         # coordinate: set location of stating board
         i0 = 0
         
@@ -150,6 +169,8 @@ class App:
                 if loc[0] > pX2 and loc[0] < pX2+90 and loc[1] > pY2 and loc[1] < pY2+90:
                     mouse_control[0] = i1
                     mouse_control[1] = i0
+                    mouse_click[0]  = i1
+                    mouse_click[1] =  i0
                     return True
                 i1+=1
             i0+=1
@@ -172,7 +193,7 @@ class App:
                 
 
 
-    def display_board_Possibilities(self, pX,pY, App, possibles):
+    def display_board_Possibilities(self, pX,pY, App, possibles, mouse_click):
         i0 = 0
         colorB = True # Tue man whitee while Flase mean Black
         poss = len(possibles) #group of locatoiojn to outshine
@@ -226,6 +247,10 @@ class App:
             else:
                 square_black( pX2, pY2, True , True, App )
             i_p+=1
+            
+        pX2 = pX+90*mouse_click[1]
+        pY2 = pY+90*mouse_click[0]
+        square_green(pX2, pY2, App)  
             
 
 
@@ -326,7 +351,7 @@ class App:
                         
                         
                         elif self.mouse_piece == False:
-                            if self.press_on_board( (BOARD_X, BOARD_Y) , loc , self.mouse_control):
+                            if self.press_on_board( (BOARD_X, BOARD_Y) , loc , self.mouse_control, self.mouse_click):
                                 
                                 # self.mouse_possibles.clear()
                                 # self.mouse_possibles.append((self.mouse_control[0], self.mouse_control[1]))
@@ -340,9 +365,21 @@ class App:
                                     if self.mouse_id >=0:
                                         print("This is the id: ",self.mouse_id)
                                         self.mouse_piece = True
-                                        # self.piece_Omega[self.mouse_id].set_up_poss_mov()
+                                        #This work foor turn respective
+                                        if self.white_turn and self.player_Omega1.is_on_play(self.mouse_id):
+                                            
+                                            print("White Hello")
+                                        elif self.black_turn and self.player_Omega2.is_on_play(self.mouse_id):
+                                            print("Black Hello2")
+                                            
+                                        else:
+                                            #in case press the piece an not be rregardding turrn; moouse id is sealed
+                                            print("Horriblee eerror, you are using wrong piece")
+                                            self.mouse_id = -1
+                                            self.mouse_piece = False
                                         
-                                        # self.piece_Omega[self.mouse_id].poss_movement(self.mouse_possibles)
+                                        # self.set_up_all_pieces_movements()
+                                        
                                 else:
                                     print("The ID si not respected  to the set pieces")
                             else:
@@ -351,7 +388,8 @@ class App:
                                 self.mouse_id = -1
                         else:
                             #In this section wheen we press the piece, we are moving the piecee
-                            if self.press_on_board( (BOARD_X, BOARD_Y) , loc , self.mouse_control):
+                            poss_click = [-1,-1]
+                            if self.press_on_board( (BOARD_X, BOARD_Y) , loc , self.mouse_control, poss_click):
                                 print("Press possibility")
                                 print("\t Mouse Control ", self.mouse_control)
                                 print("\t Mouse Possibility ", self.mouse_possibles)
@@ -369,19 +407,46 @@ class App:
                                         #kill color on location
                                         self.board_Omega[0].set_color(self.mouse_control[1], self.mouse_control[0], "n" )
                                         
+                                        #check if piece killed is not a KING  => game Over
+                                        if self.player_Omega1.game_over():
+                                            self.win_p2 = True
+                                        if self.player_Omega2.game_over():
+                                            self.win_p1 = True
+                                        
                                         
                                     #Move piece operation
                                     moveX = self.piece_Omega[self.mouse_id].movement(self.mouse_control[0], self.mouse_control[1])
                                     
                                     
                                     #select the new possibilitiees of pieceson change board
-                                    self.set_up_all_pieces_movements()
-                                    
-                                    
                                     print("\t\t M=> ", moveX)
                                     if moveX == "Rank Up":
                                         self.rank_occurence = 1
                                         print("RANK UP XXXX")
+                                    self.set_up_all_pieces_movements()
+                                    
+                                    
+                                    #Change of player turn
+                                    if self.white_turn:
+                                        self.white_turn = False
+                                        self.black_turn = True
+                                    else:
+                                        self.white_turn = True
+                                        self.black_turn = False
+                                        
+                                    #Check if check occurr
+                                    if self.player_Omega1.check():
+                                        self.check_p1 = True
+                                    else:
+                                        self.check_p1 = False
+                                        
+                                    if self.player_Omega2.check():
+                                        self.check_p2 = True
+                                    else:
+                                        self.check_p2 = False
+                                        
+                                    
+                                    
                                     
                                 if self.rank_occurence == -1:    
                                     #I neeed to save the ID, to know which piiecee is being RANK UP    
@@ -482,9 +547,19 @@ class App:
                         
                     if event.key == pygame.K_j:
                         print("Key j has been pressed")
+                        self.piece_Omega[self.mouse_id].print_piece()
+                        
                         
                     if event.key == pygame.K_k:
                         print("Key k has been pressed")
+                        if self.player_Omega1.check2():
+                            print("YOU ARE IN CHECK P1")
+                        else:
+                            print("YOU ARE NOT CHECK, P1")
+                        if self.player_Omega2.check2():
+                            print("YOU ARE IN CHECK, Player2")
+                        else:
+                            print("YOU ARE NOT CHECK, P2")
                         
                     if event.key == pygame.K_l:
                         print("Key l has been pressed")
@@ -492,6 +567,8 @@ class App:
                         
                     if event.key == pygame.K_m:
                         print("Key m has been pressed")
+                        self.player_Omega1.print_king()
+                        self.player_Omega2.print_king()
                 
                     if event.key == pygame.K_n:
                         print("Key n has been pressed")
@@ -543,7 +620,7 @@ class App:
             if self.mouse_piece == False:
                  self.display_board( BOARD_X, BOARD_Y, App, loc)
             else:
-                self.display_board_Possibilities(BOARD_X, BOARD_Y , App, self.piece_Omega[self.mouse_id].poss_loc[self.mouse_id])
+                self.display_board_Possibilities(BOARD_X, BOARD_Y , App, self.piece_Omega[self.mouse_id].poss_loc[self.mouse_id], self.mouse_click)
             self.display_piece(loc, App)
             
             if self.rank_occurence == 1:
@@ -554,8 +631,28 @@ class App:
             
             self.player_display2( 1015 , 200, App)
             
-            self.circle_display( 40, 160, App)
-            self.circle_display( 1000, 160 , App)
+            if self.white_turn:
+                self.circle_display( 40, 160, App)
+            else:
+                self.circle_display( 1000, 160 , App)
+                
+            # P1 => x=50, y=110
+            # P2 => x=1010, y=110
+            if self.check_p1:
+                px_c = 50
+                py_c = 110
+                self.display_Check(px_c, py_c, App)
+            elif self.check_p2:
+                px_c = 1010
+                py_c = 110
+                self.display_Check(px_c, py_c, App)
+                
+            if self.win_p2 == True:
+                self.display_Win(BOARD_X +90, 275, App, "P2")
+            elif self.win_p1 == True:
+                self.display_Win(BOARD_X +90, 275, App, "P1")
+                
+            
                 
             
             # pygame.draw.rect(App.screen, RED, App.rect, 1)
