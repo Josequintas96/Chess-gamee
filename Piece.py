@@ -130,10 +130,13 @@ class Piece:
                 if self.pawn_fm == False and self.loc[0] != 6:
                     # in_front = self.board[0].ret_color(self.loc[1]+1, self.loc[0]+1) 
                     # if (in_front != "B") and (in_front != "W"):
-                    poss0 = [-1,-1]
-                    poss0[0] = self.loc[0]+2
-                    poss0[1] = self.loc[1]
-                    poss.append(poss0)
+                    
+                    #confirrm that  piece two seat above is not existing
+                    if self.board[0].ret_id(self.loc[1], self.loc[0]+2) == -1:
+                        poss0 = [-1,-1]
+                        poss0[0] = self.loc[0]+2
+                        poss0[1] = self.loc[1]
+                        poss.append(poss0)
                     
                     poss0 = [-1,-1]
                     poss0[0] = self.loc[0]+1
@@ -190,10 +193,12 @@ class Piece:
             
             if self.board[0].ret_id(self.loc[1], self.loc[0]-1) == -1:
                 if self.pawn_fm == False and self.loc[0] != 1:
-                    poss0 = [-1,-1]
-                    poss0[0] = self.loc[0]-2
-                    poss0[1] = self.loc[1]
-                    poss.append(poss0)
+                    
+                    if self.board[0].ret_id(self.loc[1], self.loc[0]-2) == -1:
+                        poss0 = [-1,-1]
+                        poss0[0] = self.loc[0]-2
+                        poss0[1] = self.loc[1]
+                        poss.append(poss0)
                     
                     poss0 = [-1,-1]
                     poss0[0] = self.loc[0]-1

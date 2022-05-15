@@ -1,0 +1,4 @@
+
+
+Too run game:
+    python3 App.py 

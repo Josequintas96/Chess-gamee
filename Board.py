@@ -3,6 +3,8 @@
 
 from re import I
 
+#doublee array that contain thee location of pieces, eeach arrey represent a location, color
+# or id of piece
 
 class Board():
     board_set = {} #dictionary to select a id number with coorresponding number of block 
@@ -13,13 +15,14 @@ class Board():
     def __init__(self):
         self.set_cordinates()
         i0 = 0
+        #here we are creating that mean empty board
         while i0 < 8:
             i1 = 0
             pp = []
             cc=[]
             while i1 < 8:
-                pp.append(-1)
-                cc.append("n")
+                pp.append(-1) #there is no piece here
+                cc.append("n") #there is no piece here
                 i1+=1
             self.color_set.append(cc)
             self.id_set.append(pp)
